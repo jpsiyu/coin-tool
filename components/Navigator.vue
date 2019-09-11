@@ -4,7 +4,7 @@
       <span>币管理工具</span>
     </div>
     <el-menu
-      default-active="0-0"
+      default-active=""
       class="el-menu-vertical-demo"
       background-color="#001529"
       text-color="#fff"
@@ -58,6 +58,7 @@ export default {
 
 .nav .el-menu {
   border-right: 0;
+  user-select: none;
 }
 
 .nav >>> .el-menu-item.is-active {
