@@ -4,40 +4,41 @@
       <span>币管理工具</span>
     </div>
     <el-menu
-      default-active="2"
+      default-active="0-0"
       class="el-menu-vertical-demo"
       background-color="#001529"
       text-color="#fff"
       active-text-color="#fff"
     >
-      <el-submenu index="1">
+      <el-submenu
+        v-for="(sub, subIndex) in tree"
+        :key="subIndex"
+        :index="String(subIndex)"
+      >
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>Navigator One</span>
+          <img class="nav-icon" :src="sub.icon" alt="">
+          <span>{{sub.name}}</span>
         </template>
-        <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">item four</template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
+        <el-menu-item
+          v-for="(item, itemIndex) in sub.children"
+          :key="itemIndex"
+          :index="subIndex+'-'+itemIndex"
+        >{{item.name}}</el-menu-item>
       </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span>Navigator Two</span>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-setting"></i>
-        <span>Navigator Three</span>
-      </el-menu-item>
     </el-menu>
   </div>
 </template>
+
+<script>
+import navCfg from '@/assets/src/nav_config'
+export default {
+  data() {
+    return {
+      tree: navCfg.tree
+    }
+  }
+}
+</script>
 
 <style scoped>
 .nav-title {
@@ -50,7 +51,12 @@
   height: 68px;
 }
 
-.nav .el-menu{
+.nav-icon{
+  width: 13px;
+  height: 13px;
+}
+
+.nav .el-menu {
   border-right: 0;
 }
 
