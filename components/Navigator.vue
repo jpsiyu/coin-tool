@@ -40,11 +40,6 @@
 </template>
 
 <style scoped>
-.nav {
-  background-color: #001529;
-  width: 256px;
-}
-
 .nav-title {
   background-color: #002847;
   color: #fff;
