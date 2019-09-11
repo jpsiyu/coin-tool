@@ -4,26 +4,22 @@
       <span>币管理工具</span>
     </div>
     <el-menu
-      default-active=""
+      default-active
       class="el-menu-vertical-demo"
       background-color="#001529"
       text-color="#fff"
       active-text-color="#fff"
     >
-      <el-submenu
-        v-for="(sub, subIndex) in tree"
-        :key="subIndex"
-        :index="String(subIndex)"
-      >
+      <el-submenu v-for="(sub, subIndex) in tree" :key="subIndex" :index="String(subIndex)">
         <template slot="title">
-          <img class="nav-icon" :src="sub.icon" alt="">
-          <span>{{sub.name}}</span>
+          <img class="nav-icon" :src="sub.icon" alt />
+          <span>{{ sub.name }}</span>
         </template>
         <el-menu-item
           v-for="(item, itemIndex) in sub.children"
           :key="itemIndex"
-          :index="subIndex+'-'+itemIndex"
-        >{{item.name}}</el-menu-item>
+          :index="subIndex + '-' + itemIndex"
+        >{{ item.name }}</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -51,7 +47,7 @@ export default {
   height: 68px;
 }
 
-.nav-icon{
+.nav-icon {
   width: 13px;
   height: 13px;
 }

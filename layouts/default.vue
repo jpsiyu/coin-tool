@@ -1,11 +1,13 @@
 <template>
   <div class="de">
-    <div class="de-nav" v-show="showNav">
-      <Navigator/> 
-    </div>
-    <div class="de-main">
-      <Status @expand="expand" />
-      <nuxt />
+    <div class="de-fit">
+      <div class="de-nav" v-show="showNav">
+        <Navigator />
+      </div>
+      <div class="de-main">
+        <Status @expand="expand" />
+        <nuxt />
+      </div>
     </div>
   </div>
 </template>
@@ -35,16 +37,27 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
-  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-.de-nav{
+.de-fit {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-width: 968px;
+}
+
+.de-nav {
   background-color: #001529;
   width: 256px;
   height: 100%;
+  overflow-y: auto;
 }
 
 .de-main {
   flex: 1;
+  min-width: 768px;
+  overflow-y: auto;
 }
 </style>
