@@ -52,7 +52,7 @@ export default {
 .de-nav {
   background-color: #001529;
   height: 100%;
-  width: 30%;
+  width: 20%;
   overflow-y: auto;
   transition: transform 0.5s ease-in-out;
 }
@@ -63,8 +63,8 @@ export default {
 
 .de-main {
   position: absolute;
-  left: 30%;
-  width: 70%;
+  left: 20%;
+  width: 80%;
   overflow-y: auto;
   transition-property: width, left;
   transition-duration: 0.5s;

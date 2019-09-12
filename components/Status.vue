@@ -1,11 +1,8 @@
 <template>
   <div class="st">
-    <img
-      class="st-expand"
-      src="@/assets/icons/expand.png"
-      alt=""
-      @click="expand"
-    >
+    <div class="st-expand-wrap" @click="expand">
+      <img class="st-expand" src="@/assets/icons/expand.png" alt />
+    </div>
   </div>
 </template>
 
@@ -27,12 +24,15 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+}
+
+.st-expand-wrap{
+  cursor: pointer;
+  padding: 10px 30px 10px 20px;
 }
 
 .st-expand {
   width: 20px;
   height: 20px;
-  cursor: pointer;
 }
 </style>
