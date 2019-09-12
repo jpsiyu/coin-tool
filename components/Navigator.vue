@@ -75,6 +75,7 @@ export default {
   height: 68px;
   padding-left: 8%;
   cursor: pointer;
+  user-select: none;
 }
 
 .nav-icon {
