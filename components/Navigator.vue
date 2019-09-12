@@ -4,13 +4,14 @@
       <span>币管理工具</span>
     </div>
     <el-menu
-      default-active
+      ref="menu"
+      :default-active="defaultActive"
       class="el-menu-vertical-demo"
       background-color="#001529"
       text-color="#fff"
       active-text-color="#fff"
     >
-      <el-submenu v-for="(sub, subIndex) in tree" :key="subIndex" :index="String(subIndex)">
+      <el-submenu v-for="(sub, subIndex) in tree" :key="subIndex" :index="sub.index">
         <template slot="title">
           <img class="nav-icon" :src="sub.icon" alt />
           <span>{{ sub.name }}</span>
@@ -18,7 +19,7 @@
         <el-menu-item
           v-for="(item, itemIndex) in sub.children"
           :key="itemIndex"
-          :index="subIndex + '-' + itemIndex"
+          :index="item.index"
           @click="selectMenuItem(item)"
         >{{ item.name }}</el-menu-item>
       </el-submenu>
@@ -31,12 +32,29 @@ import navCfg from '@/assets/src/nav_config'
 export default {
   data() {
     return {
-      tree: navCfg.tree
+      defaultActive: this.getDefault(),
+      tree: []
     }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path === '/') {
+        this.$refs.menu.activeIndex = '/'
+      }
+    }
+  },
+  mounted() {
+    this.tree = navCfg.indexedTree
   },
   methods: {
     toHome() {
       this.$router.push({ path: '/' })
+    },
+    getDefault() {
+      const routePath = this.$route.path
+      const index = navCfg.hashedTree[routePath]
+      const defaultActive = index || ''
+      return defaultActive
     },
     selectMenuItem(eventData) {
       if (eventData.link) {

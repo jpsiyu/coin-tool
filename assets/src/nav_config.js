@@ -47,6 +47,36 @@ const tree = [
   }
 ]
 
+const indexTree = (tree) => {
+  const newTree = []
+  tree.forEach((_node, index) => {
+    const node = Object.assign({}, _node)
+    node.index = String(index)
+    node.children.forEach((subNode, subIndex) => {
+      subNode.index = index + '-' + subIndex
+    })
+    newTree.push(node)
+  })
+  return newTree
+}
+
+const hashTree = (tree) => {
+  const newTree = {}
+  tree.forEach(node => {
+    node.children.forEach(subNode => {
+      if (subNode.link && subNode.index) {
+        newTree[subNode.link] = subNode.index
+      }
+    })
+  })
+  return newTree
+}
+
+const indexedTree = indexTree(tree)
+const hashedTree = hashTree(indexedTree)
+
 export default {
-  tree
+  tree,
+  indexedTree,
+  hashedTree,
 }
