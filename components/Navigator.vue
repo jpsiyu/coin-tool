@@ -1,6 +1,6 @@
 <template>
   <div class="nav">
-    <div class="nav-title">
+    <div class="nav-title" @click="toHome">
       <span>币管理工具</span>
     </div>
     <el-menu
@@ -19,6 +19,7 @@
           v-for="(item, itemIndex) in sub.children"
           :key="itemIndex"
           :index="subIndex + '-' + itemIndex"
+          @click="selectMenuItem(item)"
         >{{ item.name }}</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -31,6 +32,16 @@ export default {
   data() {
     return {
       tree: navCfg.tree
+    }
+  },
+  methods: {
+    toHome() {
+      this.$router.push({ path: '/' })
+    },
+    selectMenuItem(eventData) {
+      if (eventData.link) {
+        this.$router.push({ path: eventData.link })
+      }
     }
   }
 }
@@ -45,6 +56,7 @@ export default {
   line-height: 68px;
   height: 68px;
   padding-left: 8%;
+  cursor: pointer;
 }
 
 .nav-icon {

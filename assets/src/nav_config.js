@@ -7,7 +7,7 @@ const tree = [
     children: [
       {
         name: '币账户创建',
-        link: '',
+        link: '/account',
       },
       {
         name: '币资金入库',
