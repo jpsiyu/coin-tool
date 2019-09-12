@@ -5,7 +5,7 @@
         <Navigator />
       </div>
       <div class="de-main" :class="{'de-main--full': !showNav}">
-        <Status @expand="expand" />
+        <Status @expand="expand" :showNav="showNav"/>
         <nuxt />
       </div>
     </div>

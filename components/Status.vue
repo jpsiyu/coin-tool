@@ -1,13 +1,19 @@
 <template>
   <div class="st">
     <div class="st-expand-wrap" @click="expand">
-      <img class="st-expand" src="@/assets/icons/expand.png" alt />
+      <img
+        class="st-expand"
+        :class="{'st-expand--rotate': showNav}"
+        src="@/assets/icons/expand.png"
+        alt
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['showNav'],
   methods: {
     expand() {
       this.$emit('expand')
@@ -26,7 +32,7 @@ export default {
   align-items: center;
 }
 
-.st-expand-wrap{
+.st-expand-wrap {
   cursor: pointer;
   padding: 10px 30px 10px 20px;
 }
@@ -34,5 +40,10 @@ export default {
 .st-expand {
   width: 20px;
   height: 20px;
+  transition: transform 0.2s linear;
+}
+
+.st-expand--rotate {
+  transform: rotateZ(180deg);
 }
 </style>
