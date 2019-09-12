@@ -1,10 +1,10 @@
 <template>
   <div class="de">
     <div class="de-fit">
-      <div class="de-nav" v-show="showNav">
+      <div class="de-nav" :class="{'de-nav--left': !showNav}">
         <Navigator />
       </div>
-      <div class="de-main">
+      <div class="de-main" :class="{'de-main--full': !showNav}">
         <Status @expand="expand" />
         <nuxt />
       </div>
@@ -46,18 +46,33 @@ export default {
   height: 100%;
   width: 100%;
   min-width: 968px;
+  position: relative;
 }
 
 .de-nav {
   background-color: #001529;
-  width: 256px;
   height: 100%;
+  width: 30%;
   overflow-y: auto;
+  transition: transform 0.5s ease-in-out;
+}
+
+.de-nav--left {
+  transform: translateX(-100%);
 }
 
 .de-main {
-  flex: 1;
-  min-width: 768px;
+  position: absolute;
+  left: 30%;
+  width: 70%;
   overflow-y: auto;
+  transition-property: width, left;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out
+}
+
+.de-main--full {
+  left: 0;
+  width: 100%;
 }
 </style>
