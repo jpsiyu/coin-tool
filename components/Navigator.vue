@@ -42,9 +42,9 @@ export default {
   color: #fff;
   font-weight: 700;
   font-size: 24px;
-  text-align: center;
   line-height: 68px;
   height: 68px;
+  padding-left: 8%;
 }
 
 .nav-icon {
