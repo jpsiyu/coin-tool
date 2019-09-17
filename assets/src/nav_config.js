@@ -41,7 +41,7 @@ const tree = [
       },
       {
         name: '助记词设置',
-        link: ''
+        link: '/mnemonic'
       },
     ]
   }
