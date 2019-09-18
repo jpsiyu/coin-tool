@@ -5,8 +5,12 @@
         <Navigator />
       </div>
       <div class="de-main" :class="{'de-main--full': !showNav}">
-        <Status @expand="expand" :showNav="showNav"/>
-        <nuxt />
+        <div class="de-status">
+          <Status @expand="expand" :showNav="showNav" />
+        </div>
+        <div class="de-contain">
+          <nuxt />
+        </div>
       </div>
     </div>
   </div>
@@ -65,10 +69,23 @@ export default {
   position: absolute;
   left: 20%;
   width: 80%;
-  overflow-y: auto;
+  height: 100%;
   transition-property: width, left;
   transition-duration: 0.5s;
-  transition-timing-function: ease-in-out
+  transition-timing-function: ease-in-out;
+}
+
+.de-status{
+  height: 68px;
+}
+
+.de-contain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 68px;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 .de-main--full {

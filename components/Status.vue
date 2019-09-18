@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 .st {
-  height: 68px;
+  height: 100%;
   width: 100%;
   border-bottom: 1px solid #dcdfe6;
   display: flex;
