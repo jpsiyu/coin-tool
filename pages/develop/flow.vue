@@ -13,12 +13,14 @@
       <el-form-item label="HDNode">
         <HDNode />
       </el-form-item>
-      <el-form-item label="派生路径">
-        <div class="flow-row">
-          <span>层级 1</span>
-          <el-input></el-input>
-        </div>
-      </el-form-item>
+      <el-form label="派生路径" :inline="true" label-width="50px">
+        <el-form-item label="层级">
+          <el-input v-model="form.level" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="索引">
+          <el-input v-model="index"></el-input>
+        </el-form-item>
+      </el-form>
     </el-form>
   </div>
 </template>
@@ -32,6 +34,8 @@ export default {
       form: {
         mnemonic: '',
         password: '',
+        level: 1,
+        index: '',
       }
     }
   }
