@@ -13,12 +13,12 @@
       <el-form-item label="HDNode">
         <HDNode />
       </el-form-item>
-      <el-form label="派生路径" :inline="true" label-width="50px">
+      <el-form :inline="true" label-width="50px">
         <el-form-item label="层级">
           <el-input v-model="form.level" disabled></el-input>
         </el-form-item>
         <el-form-item label="索引">
-          <el-input v-model="index"></el-input>
+          <el-input v-model="form.index"></el-input>
         </el-form-item>
       </el-form>
     </el-form>
@@ -35,8 +35,13 @@ export default {
         mnemonic: '',
         password: '',
         level: 1,
-        index: '',
+        index: this.randomIndex(),
       }
+    }
+  },
+  methods: {
+    randomIndex() {
+      return Math.floor(Math.random() * 10000)
     }
   }
 }
