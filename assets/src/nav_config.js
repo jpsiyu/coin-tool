@@ -43,6 +43,10 @@ const tree = [
         name: '助记词设置',
         link: '/mnemonic'
       },
+      {
+        name: '助记词生成流程',
+        link: '/develop/flow'
+      },
     ]
   }
 ]
