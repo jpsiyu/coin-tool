@@ -79,6 +79,7 @@ export default {
 .node-row__path{
   border: 1px solid red;
   padding: 0 20px;
+  border-radius: 10px;
 }
 
 .green{

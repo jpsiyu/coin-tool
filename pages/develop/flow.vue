@@ -3,19 +3,25 @@
     <h3>老板的输入</h3>
     <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="老板输入助记词">
-        <el-input v-model="mnemonic" type="textarea" :rows="3" placeholder="请输入助记词"></el-input>
+        <el-input
+          class="flow-area__w"
+          v-model="mnemonic"
+          type="textarea"
+          :rows="3"
+          placeholder="请输入助记词"
+        ></el-input>
       </el-form-item>
       <el-form-item label="老板输入密码">
-        <el-input v-model="password" placeholder="请输入助记词密码"></el-input>
+        <el-input class="flow-input__w" v-model="password" placeholder="请输入助记词密码"></el-input>
       </el-form-item>
       <el-form-item label="生成节点M0">
         <Node :nodes="bossNodes" />
       </el-form-item>
       <el-form-item label="默认层级">
-        <el-input v-model="level" disabled></el-input>
+        <el-input class="flow-input__w" v-model="level" disabled></el-input>
       </el-form-item>
       <el-form-item label="老板指定财务索引">
-        <el-input v-model="index"></el-input>
+        <el-input class="flow-input__w" v-model="index"></el-input>
       </el-form-item>
     </el-form>
     <h3>财务私钥生成与拆分</h3>
@@ -43,7 +49,7 @@
     <h3>用户私钥派生</h3>
     <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="派生路径">
-        <el-input v-model="derivePath" disabled></el-input>
+        <el-input class="flow-input__w" v-model="derivePath" disabled></el-input>
       </el-form-item>
       <el-form-item label="派生用户节点">
         <NodeTable :nodes="userNodes" />
@@ -52,7 +58,13 @@
     <h3>财务私钥还原</h3>
     <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="财务输入助记词" v-if="financeKeepNode">
-        <el-input v-model="financeKeepNode.mnemonic" type="textarea" :rows="3" placeholder="请输入助记词"></el-input>
+        <el-input
+          class="flow-area__w"
+          v-model="financeKeepNode.mnemonic"
+          type="textarea"
+          :rows="3"
+          placeholder="请输入助记词"
+        ></el-input>
       </el-form-item>
       <el-form-item label="财务助记词16进制">
         <span>{{entropy}}</span>
@@ -65,7 +77,7 @@
       </el-form-item>
     </el-form>
     <div class="flow-chart">
-      <img src="@/assets/images/flow.jpg" alt="">
+      <img src="@/assets/images/flow.jpg" alt />
     </div>
   </div>
 </template>
@@ -242,7 +254,7 @@ export default {
   margin-right: 20px;
 }
 
-.flow-chart img{
+.flow-chart img {
   width: 100%;
 }
 
@@ -250,5 +262,13 @@ export default {
 .flow >>> .el-input__inner,
 .flow >>> .el-textarea__inner {
   border-radius: 0;
+}
+
+.flow-area__w {
+  width: 300px;
+}
+
+.flow-input__w {
+  width: 300px;
 }
 </style>
