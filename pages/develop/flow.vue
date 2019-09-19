@@ -141,7 +141,7 @@ export default {
       this.financeNode = this.deriveNode(this.bossNode, this.index)
       this.financeMasterNode = this.createNode(this.financeNode.mnemonic, '')
       this.splits = this.splitPrivKey(this.financeMasterNode.privateKey)
-      this.salt = '0xabcdabcd'
+      this.salt = this.randomHex(8)
       this.split1salt = '0x' + this.splits[0].substring(2) + this.salt.substring(2)
       this.financeKeepNode = HDNode.fromMnemonic(HDNode.entropyToMnemonic(this.split1salt))
 
@@ -166,13 +166,22 @@ export default {
       let result = []
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
       const charactersLength = characters.length
-      for (var i = 0; i < len; i++) {
+      for (let i = 0; i < len; i++) {
         result.push(characters.charAt(Math.floor(Math.random() * charactersLength)))
       }
       return result.join('')
     },
     randomIndex() {
       return Math.floor(Math.random() * 10000)
+    },
+    randomHex(len) {
+      let result = []
+      const characters = '0123456789ABCDEFabcdef'
+      const charactersLength = characters.length
+      for (let i = 0; i < len; i++) {
+        result.push(characters.charAt(Math.floor(Math.random() * charactersLength)))
+      }
+      return '0x' + result.join('')
     },
     createNode(mnemonic, password) {
       return HDNode.fromMnemonic(mnemonic, ethers.wordlists.en, password)
