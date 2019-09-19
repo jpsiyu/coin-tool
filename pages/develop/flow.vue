@@ -15,7 +15,7 @@
         <el-input class="flow-input__w" v-model="password" placeholder="请输入助记词密码"></el-input>
       </el-form-item>
       <el-form-item label="生成节点M0">
-        <Node :nodes="bossNodes" />
+        <Node :nodes="bossNode | node2list " />
       </el-form-item>
       <el-form-item label="默认层级">
         <el-input class="flow-input__w" v-model="path" disabled></el-input>
@@ -27,10 +27,10 @@
     <h3>财务私钥生成与拆分</h3>
     <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="派生财务节点">
-        <Node :nodes="financeNodes" />
+        <Node :nodes="financeNode | node2list" />
       </el-form-item>
       <el-form-item label="生成财务根节点M1">
-        <Node :nodes="financeMasterNodes" />
+        <Node :nodes="financeMasterNode | node2list" />
       </el-form-item>
       <el-form-item label="财务私钥拆分" class="flow-split">
         <span>{{splits[0]}}</span>
@@ -43,7 +43,7 @@
         <span>{{split1salt}}</span>
       </el-form-item>
       <el-form-item label="财务保管的节点M1'">
-        <Node :nodes="financeKeepNodes" />
+        <Node :nodes="financeKeepNode | node2list" />
       </el-form-item>
     </el-form>
     <h3>用户私钥派生</h3>
@@ -111,22 +111,10 @@ export default {
       recoverFinanceMasterKey: ''
     }
   },
-  computed: {
-    bossNodes() {
-      if (!this.bossNode) return []
-      return [this.bossNode]
-    },
-    financeNodes() {
-      if (!this.financeNode) return []
-      return [this.financeNode]
-    },
-    financeMasterNodes() {
-      if (!this.financeMasterNode) return []
-      return [this.financeMasterNode]
-    },
-    financeKeepNodes() {
-      if (!this.financeKeepNode) return []
-      return [this.financeKeepNode]
+  filters: {
+    node2list(node) {
+      if (!node) return []
+      return [node]
     }
   },
   mounted() {
