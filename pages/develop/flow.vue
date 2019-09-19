@@ -135,7 +135,7 @@ export default {
   methods: {
     init() {
       this.mnemonic = this.randomMnemonic()
-      this.password = this.randomPassword()
+      this.password = this.randomStr(12)
       this.bossNode = this.createNode(this.mnemonic, this.password)
       this.index = this.randomIndex()
       this.financeNode = this.deriveNode(this.bossNode, this.index)
@@ -162,9 +162,14 @@ export default {
       const wallet = ethers.Wallet.createRandom()
       return wallet.mnemonic
     },
-    randomPassword() {
-      const r = Math.random().toString(36).substring(7)
-      return r
+    randomStr(len) {
+      let result = []
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      const charactersLength = characters.length
+      for (var i = 0; i < len; i++) {
+        result.push(characters.charAt(Math.floor(Math.random() * charactersLength)))
+      }
+      return result.join('')
     },
     randomIndex() {
       return Math.floor(Math.random() * 10000)
@@ -179,30 +184,6 @@ export default {
       const split1 = '0x' + key.substring(2, 34)
       const split2 = '0x' + key.substring(34, 66)
       return [split1, split2]
-    },
-    hexEncode(str) {
-      let hex, i
-      let result = ""
-      for (i = 0; i < str.length; i++) {
-        hex = str.charCodeAt(i).toString(16);
-        result += ("000" + hex).slice(-4);
-      }
-      return result
-    },
-    hexDecode(str) {
-      let j
-      let hexes = str.match(/.{1,4}/g) || [];
-      let back = "";
-      for (j = 0; j < hexes.length; j++) {
-        back += String.fromCharCode(parseInt(hexes[j], 16));
-      }
-      return back;
-    },
-    num2hex(number) {
-      return number.toString(16)
-    },
-    hex2num(hex) {
-      return parseInt(hex, 16)
     }
   }
 }
