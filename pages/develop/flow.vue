@@ -1,31 +1,29 @@
 <template>
   <div class="flow">
-    <el-form class="flow-form" label-position="top" size="small">
+    <h3>老板的输入</h3>
+    <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="老板输入助记词">
         <el-input v-model="mnemonic" type="textarea" :rows="3" placeholder="请输入助记词"></el-input>
       </el-form-item>
-      <el-form-item label="老板输入助记词密码">
+      <el-form-item label="老板输入密码">
         <el-input v-model="password" placeholder="请输入助记词密码"></el-input>
       </el-form-item>
       <el-form-item label="生成节点M0">
         <Node :nodes="bossNodes" />
       </el-form-item>
+      <el-form-item label="默认层级">
+        <el-input v-model="level" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="老板指定财务索引">
+        <el-input v-model="index"></el-input>
+      </el-form-item>
     </el-form>
-    <el-form class="flow-form" label-position="top">
-      <el-row class="flow-index">
-        <span>层级</span>
-        <el-form-item>
-          <el-input v-model="level" disabled></el-input>
-        </el-form-item>
-        <span>索引</span>
-        <el-form-item>
-          <el-input v-model="index"></el-input>
-        </el-form-item>
-      </el-row>
+    <h3>财务私钥生成与拆分</h3>
+    <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="派生财务节点">
         <Node :nodes="financeNodes" />
       </el-form-item>
-      <el-form-item label="生成财务根节点">
+      <el-form-item label="生成财务根节点M1">
         <Node :nodes="financeMasterNodes" />
       </el-form-item>
       <el-form-item label="财务私钥拆分" class="flow-split">
@@ -38,26 +36,48 @@
       <el-form-item label="split1 + 盐">
         <span>{{split1salt}}</span>
       </el-form-item>
-      <el-form-item label="财务保管的节点">
+      <el-form-item label="财务保管的节点M1'">
         <Node :nodes="financeKeepNodes" />
       </el-form-item>
+    </el-form>
+    <h3>用户私钥派生</h3>
+    <el-form class="flow-form" label-position="right" size="small" label-width="150px">
       <el-form-item label="派生路径">
         <el-input v-model="derivePath" disabled></el-input>
       </el-form-item>
       <el-form-item label="派生用户节点">
-        <Node :nodes="userNodes" />
+        <NodeTable :nodes="userNodes" />
       </el-form-item>
     </el-form>
+    <h3>财务私钥还原</h3>
+    <el-form class="flow-form" label-position="right" size="small" label-width="150px">
+      <el-form-item label="财务输入助记词" v-if="financeKeepNode">
+        <el-input v-model="financeKeepNode.mnemonic" type="textarea" :rows="3" placeholder="请输入助记词"></el-input>
+      </el-form-item>
+      <el-form-item label="财务助记词16进制">
+        <span>{{entropy}}</span>
+      </el-form-item>
+      <el-form-item label="拆分，减去盐">
+        <span>{{recoverSplit1}}</span>
+      </el-form-item>
+      <el-form-item label="合并split2，还原私钥">
+        <span>{{recoverFinanceMasterKey}}</span>
+      </el-form-item>
+    </el-form>
+    <div class="flow-chart">
+      <img src="@/assets/images/flow.jpg" alt="">
+    </div>
   </div>
 </template>
 
 <script>
 import Node from '@/components/develop/Node'
+import NodeTable from '@/components/develop/NodeTable'
 const ethers = require('ethers')
 const HDNode = ethers.utils.HDNode
 
 export default {
-  components: { Node },
+  components: { Node, NodeTable },
   data() {
     return {
       mnemonic: '',
@@ -72,7 +92,11 @@ export default {
       split1salt: '',
       financeKeepNode: null,
       derivePath: "m/44'/60'/0'/0",
-      userNodes: []
+      userNodes: [],
+      financeRecoverNode: null,
+      entropy: '',
+      recoverSplit1: '',
+      recoverFinanceMasterKey: ''
     }
   },
   computed: {
@@ -109,9 +133,10 @@ export default {
       this.split1salt = '0x' + this.splits[0].substring(2) + this.salt.substring(2)
       this.financeKeepNode = HDNode.fromMnemonic(HDNode.entropyToMnemonic(this.split1salt))
 
-      const entropy = HDNode.mnemonicToEntropy(this.financeKeepNode.mnemonic)
-      const len = entropy.length
-      const split1 = entropy.substring(0, len - 8)
+      this.entropy = HDNode.mnemonicToEntropy(this.financeKeepNode.mnemonic)
+      const len = this.entropy.length
+      this.recoverSplit1 = this.entropy.substring(0, len - 8)
+      this.recoverFinanceMasterKey = '0x' + this.recoverSplit1.substring(2) + this.splits[1].substring(2)
 
       const tempList = []
       for (let i = 0; i < 10; i++) {
@@ -172,9 +197,17 @@ export default {
 </script>
 
 <style scoped>
+.flow {
+  color: #606266;
+}
+
+.flow h3 {
+  padding: 10px 20px;
+}
+
 .flow-form {
   margin: 20px auto 50px auto;
-  padding: 10px;
+  padding: 20px 10px;
   width: 960px;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -193,10 +226,6 @@ export default {
   margin-bottom: 50px;
 }
 
-.el-form-item {
-  margin-bottom: 50px;
-}
-
 .flow-index .el-form-item {
   margin-bottom: 0;
   margin-right: 20px;
@@ -205,14 +234,16 @@ export default {
 .flow-index span {
   display: inline-block;
   width: 40px;
-  color: #606266;
   font-size: 14px;
 }
 
 .flow-split span {
   text-decoration: underline;
-  color: #606266;
   margin-right: 20px;
+}
+
+.flow-chart img{
+  width: 100%;
 }
 
 .flow >>> .el-button,

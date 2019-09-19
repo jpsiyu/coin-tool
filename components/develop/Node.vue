@@ -31,7 +31,7 @@
       </div>
       <div class="node-row">
         <span>path</span>
-        <span>{{item.path}}</span>
+        <span class="node-row__path">{{item.path}}</span>
       </div>
       <div class="node-row">
         <span>privateKey</span>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  props: ['nodes'],
+  props: ['nodes', "short"],
   data() {
     return {}
   }
@@ -60,11 +60,10 @@ export default {
 }
 
 .node-item{
-  border-radius: 20px;
-  margin: 10px auto;
+  margin: 10px 0;
   border: 1px solid #E4E7ED;
   padding: 10px;
-  width: 700px;
+  width: 750px;
 }
 
 .node-row {
@@ -75,6 +74,11 @@ export default {
 
 .node-row:last-child{
   border-bottom: none;
+}
+
+.node-row__path{
+  border: 1px solid red;
+  padding: 0 20px;
 }
 
 .green{
