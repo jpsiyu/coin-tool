@@ -30,8 +30,14 @@
         <span>{{splits[0]}}</span>
         <span>{{splits[1]}}</span>
       </el-form-item>
-      <el-form-item label="盐">
+      <el-form-item label="生成32位的盐">
         <span>{{salt}}</span>
+      </el-form-item>
+      <el-form-item label="split1 + 盐">
+        <span>{{split1salt}}</span>
+      </el-form-item>
+      <el-form-item label="财务保管的节点">
+        <Node :nodes="financeKeepNodes" />
       </el-form-item>
       <el-form-item label="派生路径">
         <el-input v-model="derivePath" disabled></el-input>
@@ -61,6 +67,8 @@ export default {
       financeMasterNode: null,
       splits: ['', ''],
       salt: '',
+      split1salt: '',
+      financeKeepNode: null,
       derivePath: "m/44'/60'/0'/0",
       userNodes: []
     }
@@ -77,6 +85,10 @@ export default {
     financeMasterNodes() {
       if (!this.financeMasterNode) return []
       return [this.financeMasterNode]
+    },
+    financeKeepNodes() {
+      if (!this.financeKeepNode) return []
+      return [this.financeKeepNode]
     }
   },
   mounted() {
@@ -91,7 +103,14 @@ export default {
       this.financeNode = this.deriveNode(this.bossNode, this.index)
       this.financeMasterNode = this.createNode(this.financeNode.mnemonic, '')
       this.splits = this.splitPrivKey(this.financeMasterNode.privateKey)
-      this.salt = this.randomPassword()
+      this.salt = '0xabcdabcd'
+      this.split1salt = '0x' + this.splits[0].substring(2) + this.salt.substring(2)
+      this.financeKeepNode = HDNode.fromMnemonic(HDNode.entropyToMnemonic(this.split1salt))
+
+      const entropy = HDNode.mnemonicToEntropy(this.financeKeepNode.mnemonic)
+      const len = entropy.length
+      const split1 = entropy.substring(0, len-8)
+
       const tempList = []
       for (let i = 0; i < 10; i++) {
         const dpath = `${this.derivePath}/${i}`
@@ -99,7 +118,6 @@ export default {
         tempList.push(node)
       }
       this.userNodes = tempList
-      console.log(HDNode.mnemonicToEntropy(this.financeMasterNode.mnemonic))
     },
     randomMnemonic() {
       const wallet = ethers.Wallet.createRandom()
@@ -122,6 +140,30 @@ export default {
       const split1 = '0x' + key.substring(2, 34)
       const split2 = '0x' + key.substring(34, 66)
       return [split1, split2]
+    },
+    hexEncode(str) {
+      let hex, i
+      let result = ""
+      for (i = 0; i < str.length; i++) {
+        hex = str.charCodeAt(i).toString(16);
+        result += ("000" + hex).slice(-4);
+      }
+      return result
+    },
+    hexDecode(str) {
+      let j
+      let hexes = str.match(/.{1,4}/g) || [];
+      let back = "";
+      for (j = 0; j < hexes.length; j++) {
+        back += String.fromCharCode(parseInt(hexes[j], 16));
+      }
+      return back;
+    },
+    num2hex(number) {
+      return number.toString(16)
+    },
+    hex2num(hex) {
+      return parseInt(hex, 16)
     }
   }
 }
