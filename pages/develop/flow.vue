@@ -26,6 +26,13 @@
       <el-form-item label="生成财务根节点">
         <Node :nodes="financeMasterNodes" />
       </el-form-item>
+      <el-form-item label="财务私钥拆分" class="flow-split">
+        <span>{{splits[0]}}</span>
+        <span>{{splits[1]}}</span>
+      </el-form-item>
+      <el-form-item label="盐">
+        <span>{{salt}}</span>
+      </el-form-item>
       <el-form-item label="派生路径">
         <el-input v-model="derivePath" disabled></el-input>
       </el-form-item>
@@ -52,6 +59,8 @@ export default {
       bossNode: null,
       financeNode: null,
       financeMasterNode: null,
+      splits: ['', ''],
+      salt: '',
       derivePath: "m/44'/60'/0'/0",
       userNodes: []
     }
@@ -81,6 +90,8 @@ export default {
       this.index = this.randomIndex()
       this.financeNode = this.deriveNode(this.bossNode, this.index)
       this.financeMasterNode = this.createNode(this.financeNode.mnemonic, '')
+      this.splits = this.splitPrivKey(this.financeMasterNode.privateKey)
+      this.salt = this.randomPassword()
       const tempList = []
       for (let i = 0; i < 10; i++) {
         const dpath = `${this.derivePath}/${i}`
@@ -88,6 +99,7 @@ export default {
         tempList.push(node)
       }
       this.userNodes = tempList
+      console.log(HDNode.mnemonicToEntropy(this.financeMasterNode.mnemonic))
     },
     randomMnemonic() {
       const wallet = ethers.Wallet.createRandom()
@@ -105,6 +117,11 @@ export default {
     },
     deriveNode(node, index) {
       return node.derivePath(index.toString())
+    },
+    splitPrivKey(key) {
+      const split1 = '0x' + key.substring(2, 34)
+      const split2 = '0x' + key.substring(34, 66)
+      return [split1, split2]
     }
   }
 }
@@ -132,7 +149,7 @@ export default {
   margin-bottom: 50px;
 }
 
-.el-form-item{
+.el-form-item {
   margin-bottom: 50px;
 }
 
@@ -146,6 +163,12 @@ export default {
   width: 40px;
   color: #606266;
   font-size: 14px;
+}
+
+.flow-split span {
+  text-decoration: underline;
+  color: #606266;
+  margin-right: 20px;
 }
 
 .flow >>> .el-button,
