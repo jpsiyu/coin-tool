@@ -18,7 +18,7 @@
         <Node :nodes="bossNodes" />
       </el-form-item>
       <el-form-item label="默认层级">
-        <el-input class="flow-input__w" v-model="level" disabled></el-input>
+        <el-input class="flow-input__w" v-model="path" disabled></el-input>
       </el-form-item>
       <el-form-item label="老板指定财务索引">
         <el-input class="flow-input__w" v-model="index"></el-input>
@@ -94,7 +94,7 @@ export default {
     return {
       mnemonic: '',
       password: '',
-      level: 1,
+      path: 1,
       index: 0,
       bossNode: null,
       financeNode: null,
