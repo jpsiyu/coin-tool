@@ -1,15 +1,17 @@
 <template>
   <div class="flow">
-    <el-form class="flow-form" label-position="top">
-      <el-form-item label="助记词">
+    <el-form class="flow-form" label-position="top" size="small">
+      <el-form-item label="老板输入助记词">
         <el-input v-model="mnemonic" type="textarea" :rows="3" placeholder="请输入助记词"></el-input>
       </el-form-item>
-      <el-form-item label="助记词密码">
+      <el-form-item label="老板输入助记词密码">
         <el-input v-model="password" placeholder="请输入助记词密码"></el-input>
       </el-form-item>
-      <el-form-item label="生成老板节点">
+      <el-form-item label="生成节点M0">
         <Node :nodes="bossNodes" />
       </el-form-item>
+    </el-form>
+    <el-form class="flow-form" label-position="top">
       <el-row class="flow-index">
         <span>层级</span>
         <el-form-item>
@@ -109,7 +111,7 @@ export default {
 
       const entropy = HDNode.mnemonicToEntropy(this.financeKeepNode.mnemonic)
       const len = entropy.length
-      const split1 = entropy.substring(0, len-8)
+      const split1 = entropy.substring(0, len - 8)
 
       const tempList = []
       for (let i = 0; i < 10; i++) {
@@ -171,7 +173,7 @@ export default {
 
 <style scoped>
 .flow-form {
-  margin: 20px auto;
+  margin: 20px auto 50px auto;
   padding: 10px;
   width: 960px;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
