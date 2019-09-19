@@ -214,7 +214,8 @@ export default {
 }
 
 .flow h3 {
-  padding: 10px 20px;
+  width: 960px;
+  margin: 20px auto;
 }
 
 .flow-form {
